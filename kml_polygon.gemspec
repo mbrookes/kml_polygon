@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["kml_polygon@nospam.33m.co"]
   gem.description   = %q{Generate KML polygons (circle, star etc.) from lat/long and radius
                          A port of http://blog.client9.com/2007/09/drawing-circles-and-stars-on-google.html}
-  gem.summary       = %q{Output a KML fragment defining a polygon (eg. a circle or star) about a point}
+  gem.summary       = %q{Output a KML fragment defining a polygon (eg. a circle or star) about a point.}
   gem.homepage      = "https://github.com/mbrookes/kml_polygon"
 
   gem.files         = `git ls-files`.split($/)

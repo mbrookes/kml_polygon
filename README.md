@@ -11,7 +11,6 @@ Given only a center-point (longitude/latitude) and radius, this Gem makes it eas
 All credit to  Nick Galbreath for the original code, and for providing it an a portable format. Thanks!
 (http://blog.client9.com/2007/09/drawing-circles-and-stars-on-google.html)
 
-
 ## Installation
 
 Add this line to your application's Gemfile:
