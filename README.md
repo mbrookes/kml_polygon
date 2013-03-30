@@ -16,7 +16,7 @@ All credit to  Nick Galbreath for the original code, and for providing it an a p
 
 Add this line to your application's Gemfile:
 
-    gem 'kml_polygon', :git => 'git://github.com/mbrookes/kml_polygon.git'
+    gem 'kml_polygon'
 
 And then execute:
 
@@ -24,7 +24,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install kml_polygon # Note - not currently supported; not a public Gem
+    $ gem install kml_polygon
 
 ## Usage
 

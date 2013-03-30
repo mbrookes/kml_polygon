@@ -11,10 +11,11 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Generate KML polygons (circle, star etc.) from lat/long and radius
                          A port of http://blog.client9.com/2007/09/drawing-circles-and-stars-on-google.html}
   gem.summary       = %q{Output a KML fragment defining a polygon (eg. a circle or star) about a point}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/mbrookes/kml_polygon"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+  gem.license       = "MIT"
 end
