@@ -45,7 +45,7 @@ module KmlPolygon
   # constant to convert to radians
   RADIANS = PI / 180.0
   # Mean Radius of Earth, radius
-  EARTH_MEAN_RADIUS = 6378.1 * 1000.0
+  EARTH_MEAN_RADIUS = 6371.0 * 1000
 
 #
 # Convert (x,y,z) on unit sphere
