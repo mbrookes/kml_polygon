@@ -51,8 +51,6 @@ module KmlPolygon
 # Convert [x,y,z] on unit sphere
 # back to [longitude, latitude])
 #
-# point is vector of three elements
-#
   def to_earth(point)
     point[0] == 0.0 ? lon = PI / 2.0 :lon = Math.atan(point[1]/point[0])
     lat = PI / 2.0 - Math.acos(point[2])
@@ -63,14 +61,15 @@ module KmlPolygon
   end
 
 #
-# convert longitude, latitude IN RADIANS to [x,y,z]
+# Convert [longitude, latitude] IN RADIANS to 
+# spherical / cartesian [x,y,z]
 #
-  def to_cart(lon, lat)
-    theta = lon
+  def to_cartesian(coord)
+    theta = coord[0]
     # spherical coordinate use "co-latitude", not "latitude"
     # lat = [-90, 90] with 0 at equator
     # co-lat = [0, 180] with 0 at north pole
-    phi = PI / 2.0 - lat
+    phi = PI / 2.0 - coord[1]
     [Math.cos(theta) * Math.sin(phi), Math.sin(theta) * Math.sin(phi), Math.cos(phi)]
   end
 
@@ -89,8 +88,8 @@ module KmlPolygon
     # compute longitude degrees (in radians) at given latitude
     r = radius / (EARTH_MEAN_RADIUS * Math.cos(lat * RADIANS))
 
-    vector = to_cart(lon * RADIANS, lat * RADIANS)
-    point = to_cart(lon * RADIANS + r, lat * RADIANS)
+    vector = to_cartesian([lon * RADIANS, lat * RADIANS])
+    point = to_cartesian([lon * RADIANS + r, lat * RADIANS])
     points = []
 
     for side in 0...sides
