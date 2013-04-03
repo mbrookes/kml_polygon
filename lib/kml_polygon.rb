@@ -44,33 +44,33 @@ module KmlPolygon
   DEGREES = 180.0 / PI
   # constant to convert to radians
   RADIANS = PI / 180.0
-  # Mean Radius of Earth, radius
+  # Mean Radius of Earth in meters
   EARTH_MEAN_RADIUS = 6371.0 * 1000
 
 #
-# Convert (x,y,z) on unit sphere
-# back to (longitude, latitude)
+# Convert [x,y,z] on unit sphere
+# back to [longitude, latitude])
 #
-# p is vector of three elements
+# point is vector of three elements
 #
-  def to_earth(p)
-    p[0] == 0.0 ? longitude = PI / 2.0 :longitude = Math.atan(p[1]/p[0])
-    latitude = PI / 2.0 - Math.acos(p[2])
+  def to_earth(point)
+    point[0] == 0.0 ? lon = PI / 2.0 :lon = Math.atan(point[1]/point[0])
+    lat = PI / 2.0 - Math.acos(point[2])
 
     # select correct branch of arctan
-    (p[1] <= 0.0 ? longitude = -(PI - longitude) : longitude = PI + longitude) if p[0] < 0.0
-    [longitude * DEGREES, latitude * DEGREES]
+    (point[1] <= 0.0 ? lon = -(PI - lon) : lon = PI + lon) if point[0] < 0.0
+    [lon * DEGREES, lat * DEGREES]
   end
 
 #
-# convert longitude, latitude IN RADIANS to (x,y,z)
+# convert longitude, latitude IN RADIANS to [x,y,z]
 #
-  def to_cart(longitude, latitude)
-    theta = longitude
+  def to_cart(lon, lat)
+    theta = lon
     # spherical coordinate use "co-latitude", not "latitude"
-    # lattiude = [-90, 90] with 0 at equator
-    # co-latitude = [0, 180] with 0 at north pole
-    phi = PI / 2.0 - latitude
+    # lat = [-90, 90] with 0 at equator
+    # co-lat = [0, 180] with 0 at north pole
+    phi = PI / 2.0 - lat
     [Math.cos(theta) * Math.sin(phi), Math.sin(theta) * Math.sin(phi), Math.cos(phi)]
   end
 
@@ -82,15 +82,15 @@ module KmlPolygon
 #
 # Returns a list of points comprising the object
 #
-  def spoints(longitude, latitude, radius, sides, rotate=0)
+  def spoints(lon, lat, radius, sides=20, rotate=0)
 
     rotate_radians = rotate * RADIANS
 
     # compute longitude degrees (in radians) at given latitude
-    r = radius / (EARTH_MEAN_RADIUS * Math.cos(latitude * RADIANS))
+    r = radius / (EARTH_MEAN_RADIUS * Math.cos(lat * RADIANS))
 
-    vector = to_cart(longitude * RADIANS, latitude * RADIANS)
-    point = to_cart(longitude * RADIANS + r, latitude * RADIANS)
+    vector = to_cart(lon * RADIANS, lat * RADIANS)
+    point = to_cart(lon * RADIANS + r, lat * RADIANS)
     points = []
 
     for side in 0...sides
@@ -143,21 +143,21 @@ module KmlPolygon
 #
 # kml_regular_polygon    - Regular polygon
 #
-#  (longitude, latitude) - center point in decimal degrees
+#  (lon, lat)            - center point in decimal degrees
 #  radius                - radius in meters
 #  segments              - number of sides, > 20 looks like a circle (optional, default: 20)
 #  rotate                - rotate polygon by number of degrees (optional, default: 0)
 #
 # Returns a string suitable for adding into a KML file.
 #
-  def kml_regular_polygon(longitude, latitude, radius, segments=20, rotate=0)
-    points_to_kml(spoints(longitude, latitude, radius, segments, rotate))
+  def kml_regular_polygon(lon, lat, radius, segments=20, rotate=0)
+    points_to_kml(spoints(lon, lat, radius, segments, rotate))
   end
 
 #
 # kml_star - Make a "star" or "burst" pattern
 #
-#  (longitude, latitude) - center point in decimal degrees
+#  (lon, lat)            - center point in decimal degrees
 #  radius                - radius in meters
 #  innner_radius         - radius in meters, typically < outer_radius
 #  segments              - number of "points" on the star (optional, default: 10)
@@ -165,9 +165,9 @@ module KmlPolygon
 #
 # Returns a string suitable for adding into a KML file.
 #
-  def kml_star(longitude, latitude, radius, inner_radius, segments=10, rotate=0)
-    outer_points = spoints(longitude, latitude, radius, segments, rotate)
-    inner_points = spoints(longitude, latitude, inner_radius, segments, rotate + 180.0 / segments)
+  def kml_star(lon, lat, radius, inner_radius, segments=10, rotate=0)
+    outer_points = spoints(lon, lat, radius, segments, rotate)
+    inner_points = spoints(lon, lat, inner_radius, segments, rotate + 180.0 / segments)
 
     # interweave the radius and inner_radius points
     # I'm sure there is a better way
