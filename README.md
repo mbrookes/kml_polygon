@@ -8,7 +8,7 @@ Google earth doesn't provide polygon primitives, leaving you to generate them as
 Given only a center-point (longitude/latitude) and radius, this Gem makes it easy to create
 (n) sided polygons (sufficient sides giving a circle) or stars, for inclusion in a KML file.
 
-All credit to  Nick Galbreath for the original code, and for providing it ai a portable format. Thanks!
+All credit to  Nick Galbreath for the original code, and for providing it in a portable format. Thanks!
 (http://blog.client9.com/2007/09/drawing-circles-and-stars-on-google.html)
 
 ## Installation
