@@ -100,6 +100,11 @@ module KmlPolygon
     # Not sure if required, but seems to help when the polygon is not filled
     points << points[0]
   end
+  
+  def wkt(lng, lat, radius, sides, rotate=0)
+    coords = spoints(lng, lat, radius, sdies, rotate)
+    "POLYGON ((" + coords.map{|tuple| tuple.join(" ")}.join(", ") + "))"
+  end
 
 #
 # rotate point around unit vector by phi radians
